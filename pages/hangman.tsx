@@ -5,17 +5,15 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Header from '../components/Header';
 import Keyboard from '../components/Keyboard';
 import { getQuote, quoteSelector } from '../features';
+import { selectNickname } from '../features/nicknameSlice';
 
 const Quote: NextPage = () => {
   const dispatch = useAppDispatch();
   const { data, pending, error } = useAppSelector(quoteSelector);
+  const nn = useAppSelector(selectNickname);
 
   const sentence = data.content.split(/[ ,]+/);
   const words = sentence.map((word) => word.split(''));
-
-  let nickname =
-    typeof window !== 'undefined' &&
-    (localStorage.getItem('nickname') as string);
 
   const letters = words.map((word, i) => (
     <Box key={i} display="inline-block" padding="0" marginRight="30px">
@@ -41,7 +39,7 @@ const Quote: NextPage = () => {
 
   return (
     <>
-      <Header nickname={nickname} />
+      <Header nickname={nn} />
 
       <Box display="flex" width="100%" height="100%" justifyContent="center">
         <VStack spacing="12" mt="20">

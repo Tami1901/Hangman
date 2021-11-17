@@ -1,10 +1,10 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { getQuote } from "./actions";
+import { createReducer } from '@reduxjs/toolkit';
+import { getQuote } from './actions';
 
 export type QuoteState = {
   data: {
-    author: string,
-    content: string,
+    author: string;
+    content: string;
   };
   pending: boolean;
   error: boolean;
@@ -13,25 +13,25 @@ export type QuoteState = {
 const initialState: QuoteState = {
   data: {
     author: '',
-    content: 'click the button'
+    content: '',
   },
   pending: false,
   error: false,
 };
 
-export const quoteReducer = createReducer(initialState, builder => {
+export const quoteReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(getQuote.pending, state => {
+    .addCase(getQuote.pending, (state) => {
       state.pending = true;
     })
-    .addCase(getQuote.fulfilled, (state, {payload}) => {
+    .addCase(getQuote.fulfilled, (state, { payload }) => {
       state.pending = false;
       state.data = payload;
-    }) 
-    .addCase(getQuote.rejected, state => {
+    })
+    .addCase(getQuote.rejected, (state) => {
       state.pending = false;
       state.error = true;
-    })
-})
+    });
+});
 
 export default quoteReducer;

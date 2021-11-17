@@ -21,6 +21,6 @@ export const nicknameSlice = createSlice({
 
 export const { save } = nicknameSlice.actions;
 
-export const selectCount = (state: RootState) => state.nickname.nn;
+export const selectNickname = (state: RootState) => state.nickname.nn;
 
 export default nicknameSlice.reducer;
