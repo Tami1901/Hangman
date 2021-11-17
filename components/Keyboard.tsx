@@ -1,20 +1,25 @@
 import { Box, Button } from '@chakra-ui/react';
 import React from 'react';
-import { ALPHABET } from '../constants/alphabet';
+
+const range = (start: number, end: number) => {
+  return Array(end - start + 1)
+    .fill('')
+    .map((_, idx) => start + idx);
+};
 
 const Keyboard = () => {
   return (
     <Box>
-      {ALPHABET.map((elem) => (
+      {range(65, 90).map((elem) => (
         <Button
           key={elem}
-          value={elem}
-          onClick={(e) => console.log(e.target.innerText)}
+          value={String.fromCharCode(elem)}
+          onClick={(e) => console.log(String.fromCharCode(elem))}
           disabled={false}
           m="2"
           p="0"
         >
-          {elem}
+          {String.fromCharCode(elem)}
         </Button>
       ))}
     </Box>
