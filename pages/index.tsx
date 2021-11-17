@@ -1,38 +1,76 @@
-import type { NextPage } from 'next'
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { decrement, increment, incrementByAmount, selectCount } from '../features/counter/counterSlice';
+import React, { useEffect, useState } from 'react';
+import type { NextPage } from 'next';
+import Header from '../components/Header';
+import {
+  VStack,
+  Flex,
+  Heading,
+  Input,
+  useColorModeValue,
+  HStack,
+  FormControl,
+} from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import { LinkButton } from 'chakra-next-link';
 
 const Home: NextPage = () => {
-  const dispatch = useAppDispatch();
-  const count = useAppSelector(selectCount);
-  const [incrementAmount, setIncrementAmount] = useState<number>(0);
-  
+  const [nickname, setNickname] = useState('');
+  const textColor = useColorModeValue('gray.700', 'gray.100');
+
+  const {
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('nickname', nickname);
+    }
+  }, [nickname]);
+
   return (
     <>
-      <h1>Welcome to the greatest app in the world!</h1>
-      <h2>
-        The current number is
-        {count}
-      </h2>
-      <div>
-        <input
-          value={incrementAmount}
-          onChange={(e) => setIncrementAmount(Number(e.target.value))}
-          type="number"
-        />
-        <button
-          onClick={() => dispatch(incrementByAmount(Number(incrementAmount)))}
+      <Header />
+      <Flex width="100%" justifyContent="center">
+        <VStack
+          spacing="10"
+          width="50%"
+          justifyContent="center"
+          mt="10"
+          p="10"
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          borderRadius="5px"
         >
-          Increment by amount
-        </button>
-      </div>
-      <div>
-        <button onClick={() => dispatch(decrement())}>Decrement by 1</button>
-        <button onClick={() => dispatch(increment())}>Increment by 1</button>
-      </div>
-    </>
-  )
-}
+          <Heading size="lg" color={textColor}>
+            Enter your nickname and start the game
+          </Heading>
 
-export default Home
+          <HStack mt="20">
+            <FormControl id="nickname" isRequired>
+              <Input
+                type="text"
+                isInvalid
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                placeholder="nickname"
+                aria-label="nickname"
+                textColor={textColor}
+              />
+            </FormControl>
+            <LinkButton
+              href="/hangman"
+              width="40"
+              isDisabled={!nickname}
+              colorScheme="green"
+            >
+              {' '}
+              Start{' '}
+            </LinkButton>
+          </HStack>
+        </VStack>
+      </Flex>
+    </>
+  );
+};
+
+export default Home;

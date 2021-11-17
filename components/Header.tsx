@@ -1,8 +1,14 @@
-import { Box, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Avatar, Box, Button, Flex, Heading, HStack } from '@chakra-ui/react';
+import { LinkIconButton } from 'chakra-next-link';
 import React from 'react';
 import ThemeSwitcher from './ThemeSwitcher';
 
-const Header = () => {
+interface HeaderProps {
+  nickname?: any;
+}
+
+const Header = ({ nickname }: HeaderProps) => {
   return (
     <Flex
       as="header"
@@ -13,10 +19,22 @@ const Header = () => {
       boxShadow="rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px"
       p="4"
     >
+      {nickname && (
+        <LinkIconButton
+          href="/"
+          aria-label="back"
+          icon={<ArrowBackIcon />}
+          position="absolute"
+          left="4"
+          size="sm"
+        />
+      )}
+
       <Heading>Hangman</Heading>
-      <Box position="absolute" right="10">
+      <HStack position="absolute" right="4">
+        {nickname && <Avatar name={nickname} size="sm" />}
         <ThemeSwitcher />
-      </Box>
+      </HStack>
     </Flex>
   );
 };

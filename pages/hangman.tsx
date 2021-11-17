@@ -13,7 +13,9 @@ const Quote: NextPage = () => {
   const sentence = data.content.split(/[ ,]+/);
   const words = sentence.map((word) => word.split(''));
 
-  console.log(sentence);
+  let nickname =
+    typeof window !== 'undefined' &&
+    (localStorage.getItem('nickname') as string);
 
   const letters = words.map((word, i) => (
     <Box key={i} display="inline-block" padding="0" marginRight="30px">
@@ -39,13 +41,22 @@ const Quote: NextPage = () => {
 
   return (
     <>
-      <Header />
-      <Box display="flex" width="100%" height="100vh" justifyContent="center">
-        <VStack>
+      <Header nickname={nickname} />
+
+      <Box display="flex" width="100%" height="100%" justifyContent="center">
+        <VStack spacing="12" mt="20">
           {pending && <p>Loading...</p>}
-          {data && <Box m="20">{letters}</Box>}
+          {data && (
+            <Box textAlign="center" mx="6">
+              {letters}
+            </Box>
+          )}
 
           {error && <p>Oops, something went wrong</p>}
+
+          <Box display="flex" width="70%" justifyContent="center">
+            <Keyboard />
+          </Box>
           <Button
             onClick={() => dispatch(getQuote())}
             disabled={pending}
@@ -53,9 +64,6 @@ const Quote: NextPage = () => {
           >
             Generate new quote
           </Button>
-          <Box display="flex" width="70%" justifyContent="center">
-            <Keyboard />
-          </Box>
         </VStack>
       </Box>
     </>
