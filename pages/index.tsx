@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import type { NextPage } from 'next';
 import Header from '../components/Header';
 import {
@@ -8,25 +8,26 @@ import {
   Input,
   useColorModeValue,
   HStack,
-  FormControl,
+  Button,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { LinkButton } from 'chakra-next-link';
+import { useAppDispatch } from '../app/hooks';
+import { save } from '../features/nicknameSlice';
+import { useRouter } from 'next/dist/client/router';
 
 const Home: NextPage = () => {
-  const [nickname, setNickname] = useState('');
   const textColor = useColorModeValue('gray.700', 'gray.100');
 
-  const {
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('nickname', nickname);
-    }
-  }, [nickname]);
+  const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
+  const onSubmit = async (data: { nickname: string }) => {
+    await dispatch(save(data.nickname));
+    router.push('/hangman');
+  };
 
   return (
     <>
@@ -45,28 +46,29 @@ const Home: NextPage = () => {
             Enter your nickname and start the game
           </Heading>
 
-          <HStack mt="20">
-            <FormControl id="nickname" isRequired>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <HStack mt="4">
               <Input
+                {...register('nickname')}
                 type="text"
-                isInvalid
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
                 placeholder="nickname"
                 aria-label="nickname"
                 textColor={textColor}
+                minLength={4}
               />
-            </FormControl>
-            <LinkButton
-              href="/hangman"
-              width="40"
-              isDisabled={!nickname}
-              colorScheme="green"
-            >
-              {' '}
-              Start{' '}
-            </LinkButton>
-          </HStack>
+
+              <Button
+                type="submit"
+                value="submit"
+                href="/hangman"
+                width="40"
+                colorScheme="green"
+              >
+                {' '}
+                Start{' '}
+              </Button>
+            </HStack>
+          </form>
         </VStack>
       </Flex>
     </>
