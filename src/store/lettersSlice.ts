@@ -3,10 +3,14 @@ import { RootState } from './store';
 
 export type LettersState = {
   clickedLetters: string[];
+  correctLetters: number;
+  incorrectLetters: number;
 };
 
 const initialState: LettersState = {
   clickedLetters: [],
+  correctLetters: 0,
+  incorrectLetters: 0,
 };
 
 const lettersSlice = createSlice({
@@ -17,10 +21,16 @@ const lettersSlice = createSlice({
       state.clickedLetters.push(action.payload);
     },
     refresh: () => initialState,
+    correct: (state) => {
+      state.correctLetters++;
+    },
+    incorrect: (state) => {
+      state.incorrectLetters++;
+    },
   },
 });
 
-export const { add, refresh } = lettersSlice.actions;
+export const { add, refresh, correct, incorrect } = lettersSlice.actions;
 
 export const selectLetters = (state: RootState) => state.clickedLetters.clickedLetters;
 
