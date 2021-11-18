@@ -1,7 +1,7 @@
 import { Box, Button } from '@chakra-ui/react';
 import React from 'react';
 
-const range = (start: number, end: number) => {
+export const range = (start: number, end: number) => {
   return Array(end - start + 1)
     .fill('')
     .map((_, idx) => start + idx);
