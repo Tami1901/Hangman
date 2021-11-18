@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 import type { AppProps } from 'next/app';
-import { store } from '../app/store';
+import { store } from '../store/store';
 import { ChakraProvider } from '@chakra-ui/react';
 
 function MyApp({ Component, pageProps }: AppProps) {

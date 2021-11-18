@@ -1,5 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { getQuote } from './actions';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+type QuoteType = {
+  _id: string;
+  content: string;
+  author: string;
+  authorSlug: string;
+  length: number;
+  tags: string[];
+};
+
+export const getQuote = createAsyncThunk('quote', async () => {
+  const response = await axios.get<QuoteType>('http://api.quotable.io/random');
+
+  return { ...response.data, content: response.data.content.toUpperCase() };
+});
 
 export type QuoteState = {
   data: {
@@ -19,6 +35,7 @@ const initialState: QuoteState = {
   error: false,
 };
 
+// https://redux-toolkit.js.org/api/createAsyncThunk
 export const quoteReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(getQuote.pending, (state) => {

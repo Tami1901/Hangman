@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../app/store';
+import { RootState } from './store';
 
 export type NicknameState = {
-  nn: string;
+  nickname: string;
 };
 
 const initialState: NicknameState = {
-  nn: '',
+  nickname: '',
 };
 
 export const nicknameSlice = createSlice({
@@ -14,13 +14,13 @@ export const nicknameSlice = createSlice({
   initialState,
   reducers: {
     save: (state, action: PayloadAction<string>) => {
-      state.nn = action.payload;
+      state.nickname = action.payload;
     },
   },
 });
 
 export const { save } = nicknameSlice.actions;
 
-export const selectNickname = (state: RootState) => state.nickname.nn;
+export const selectNickname = (state: RootState) => state.nickname.nickname;
 
 export default nicknameSlice.reducer;

@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
-import { RootState } from '../app/store';
+import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 export const selectQuote = (state: RootState) => state.quote;
 

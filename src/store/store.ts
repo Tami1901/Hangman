@@ -1,13 +1,15 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { quoteReducer } from '../features';
-import counterReducer from '../features/counter/counterSlice';
-import nicknameReducer from '../features/nicknameSlice';
+import { quoteReducer } from '.';
+import counterReducer from './counter/counterSlice';
+import nicknameReducer from './nicknameSlice';
+import clickedLettersReducer from './lettersSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     quote: quoteReducer,
     nickname: nicknameReducer,
+    clickedLetters: clickedLettersReducer,
   },
 });
 
