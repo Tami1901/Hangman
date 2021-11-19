@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { RootState } from '../store';
 
 export type NicknameState = {
-  nickname: string;
+  nickname: string | undefined;
 };
 
 const initialState: NicknameState = {
-  nickname: '',
+  // TODO: remove
+  nickname: 'Tamara',
 };
 
 export const nicknameSlice = createSlice({

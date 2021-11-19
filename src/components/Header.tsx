@@ -1,14 +1,21 @@
-import { ArrowBackIcon } from '@chakra-ui/icons';
+import { AddIcon, ArrowBackIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Flex, Heading, HStack } from '@chakra-ui/react';
 import { LinkIconButton } from 'chakra-next-link';
-import React from 'react';
+import { redirect } from 'next/dist/server/api-utils';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { PURGE } from 'redux-persist/lib/constants';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { refresh } from '../store/slices/letters';
+import { getQuote } from '../store/slices/quote';
 import ThemeSwitcher from './ThemeSwitcher';
 
-interface HeaderProps {
-  nickname?: any;
-}
+const Header = () => {
+  const dispatch = useAppDispatch();
+  const { nickname } = useAppSelector((state) => state.nickname);
 
-const Header = ({ nickname }: HeaderProps) => {
+  const router = useRouter();
+
   return (
     <Flex
       as="header"
@@ -20,14 +27,29 @@ const Header = ({ nickname }: HeaderProps) => {
       p="4"
     >
       {nickname && (
-        <LinkIconButton
-          href="/"
-          aria-label="back"
-          icon={<ArrowBackIcon />}
-          position="absolute"
-          left="4"
-          size="sm"
-        />
+        <HStack position="absolute" left="4">
+          <LinkIconButton
+            aria-label="back"
+            icon={<ArrowBackIcon />}
+            colorScheme="red"
+            size="md"
+            onClick={() => {
+              dispatch({ type: 'reset-store' });
+              router.push('/');
+            }}
+          />
+
+          <Button
+            onClick={() => {
+              dispatch(getQuote());
+              dispatch(refresh());
+            }}
+            colorScheme="orange"
+            size="md"
+          >
+            <AddIcon w={2} h={2} />
+          </Button>
+        </HStack>
       )}
 
       <Heading>Hangman</Heading>

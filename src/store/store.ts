@@ -1,17 +1,55 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { quoteReducer } from '.';
-import counterReducer from './counter/counterSlice';
-import nicknameReducer from './nicknameSlice';
-import clickedLettersReducer from './lettersSlice';
+import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import quoteReducer from './slices/quote';
+import nicknameReducer from './slices/nickname';
+import clickedLettersReducer from './slices/letters';
+import timeReducer from './slices/time';
+import scoreReducer from './slices/scores';
+// @ts-ignore
+import storage from 'redux-persist/lib/storage';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist';
+
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+};
+
+const rootReducer = combineReducers({
+  quote: quoteReducer,
+  nickname: nicknameReducer,
+  clickedLetters: clickedLettersReducer,
+  time: timeReducer,
+  scores: scoreReducer,
+});
+
+// const persistedReducer = persistReducer(persistConfig, ((state, action) => {
+//   if (action?.type === 'reset-store') {
+//     return rootReducer(undefined, action);
+//   }
+
+//   return rootReducer(state as any, action);
+// }) as typeof rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    quote: quoteReducer,
-    nickname: nicknameReducer,
-    clickedLetters: clickedLettersReducer,
-  },
+  reducer: rootReducer,
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: {
+  //       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+  //     },
+  //   }),
 });
+
+// export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

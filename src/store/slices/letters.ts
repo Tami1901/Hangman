@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { RootState } from '../store';
 
 export type LettersState = {
   clickedLetters: string[];
@@ -32,6 +32,6 @@ const lettersSlice = createSlice({
 
 export const { add, refresh, correct, incorrect } = lettersSlice.actions;
 
-export const selectLetters = (state: RootState) => state.clickedLetters.clickedLetters;
+export const selectLetters = (state: RootState) => state.clickedLetters;
 
 export default lettersSlice.reducer;
