@@ -13,20 +13,21 @@ export type ScoreType = {
 };
 
 export const getScores = createAsyncThunk('scores', async () => {
-  const response = await axios.get<ScoreType>(
+  const response = await axios.get<ScoreType[]>(
     'https://my-json-server.typicode.com/stanko-ingemark/hang_the_wise_man_frontend_task/highscores'
   );
-  return { ...response.data };
+
+  return response.data;
 });
 
 export type ScoreState = {
-  data: Record<number, ScoreType> | undefined;
+  data: ScoreType[];
   pending: boolean;
   error: boolean;
 };
 
 const initialState: ScoreState = {
-  data: undefined,
+  data: [],
   pending: false,
   error: false,
 };

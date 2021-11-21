@@ -18,7 +18,7 @@ const mobileKeys = ['nickname', 'score'];
 
 const ScorePage: NextPage = () => {
   const dispatch = useAppDispatch();
-  const { data: scoreData = {}, pending } = useAppSelector(scoresSelect);
+  const { data: scoreData, pending } = useAppSelector(scoresSelect);
   const nickname = useAppSelector(selectNickname);
   const games = useAppSelector(selectGames);
 
@@ -31,7 +31,7 @@ const ScorePage: NextPage = () => {
     dispatch(getScores());
   }, [dispatch, nickname, router]);
 
-  const calcScoreData = [...Object.values(scoreData), ...games]
+  const calcScoreData = [...scoreData, ...games]
     .map((r) => ({
       ...r,
       nickname: r.userName,
