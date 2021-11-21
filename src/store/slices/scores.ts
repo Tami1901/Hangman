@@ -2,7 +2,7 @@ import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 import { RootState } from '../store';
 
-type ScoreType = {
+export type ScoreType = {
   id: number;
   quoteId: string;
   length: number;
@@ -20,7 +20,20 @@ export const getScores = createAsyncThunk('scores', async () => {
 });
 
 export type ScoreState = {
-  data: ScoreType | undefined;
+  data:
+    | Record<
+        number,
+        {
+          id: number;
+          quoteId: string;
+          length: number;
+          uniqueCharacters: number;
+          userName: string;
+          errors: number;
+          duration: number;
+        }
+      >
+    | undefined;
   pending: boolean;
   error: boolean;
 };

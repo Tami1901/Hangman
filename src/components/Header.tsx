@@ -41,13 +41,14 @@ const Header = () => {
 
           <Button
             onClick={() => {
+              router.push('/hangman');
               dispatch(getQuote());
               dispatch(refresh());
             }}
             colorScheme="orange"
             size="md"
           >
-            <AddIcon w={2} h={2} />
+            New
           </Button>
         </HStack>
       )}

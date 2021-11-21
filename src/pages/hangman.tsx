@@ -26,6 +26,7 @@ import { resetTime, startTimer, stopTimer, tickTime } from '../store/slices/time
 import axios from 'axios';
 import { getScores, scoresSelect } from '../store/slices/scores';
 import { Human } from '../components/Human/Human';
+import { LinkButton } from 'chakra-next-link';
 
 export const ATTEMPTS = 6;
 
@@ -44,7 +45,8 @@ const HangmanPage: NextPage = () => {
   const nickname = useAppSelector(selectNickname);
   const { clickedLetters, incorrectLetters } = useAppSelector(selectLetters);
   const { time, duration } = useAppSelector((state) => state.time);
-  const scoreApi = useAppSelector(scoresSelect);
+  const { data: scoreData } = useAppSelector(scoresSelect);
+  // if (scoreData) Object.values(scoreData).filter((a) => console.log(setScore(a.errors)));
 
   const router = useRouter();
   useEffect(() => {
@@ -114,13 +116,24 @@ const HangmanPage: NextPage = () => {
                 height="100%"
                 justifyContent="center"
                 alignItems="center"
-                spacing={8}
+                spacing={16}
                 mt="20"
               >
                 <Heading size="lg">🎉 Congratulations! You win!</Heading>
-                <Button colorScheme="green" onClick={() => dispatch(refresh())}>
-                  New game
-                </Button>
+                <HStack>
+                  <Heading size="md">Your score is: </Heading>
+                  <Heading color="orange">
+                    {Math.round((100 / (1 + incorrectLetters)) * 100) / 100}
+                  </Heading>
+                </HStack>
+                <HStack>
+                  <Button colorScheme="green" onClick={() => dispatch(refresh())} width="50%">
+                    New game
+                  </Button>
+                  <LinkButton href="/scores" colorScheme="orange" width="50%">
+                    Scores
+                  </LinkButton>
+                </HStack>
               </VStack>
             </Box>
           ) : (
@@ -154,7 +167,7 @@ const HangmanPage: NextPage = () => {
                   <Human />
                 </GridItem>
                 <GridItem colSpan={2}>
-                  <VStack spacing="8" mt="12">
+                  <VStack spacing="8" mt="26">
                     {quoteApi.pending && <p>Loading...</p>}
                     {quoteApi.data && (
                       <Flex justifyContent="center" flexWrap="wrap">
