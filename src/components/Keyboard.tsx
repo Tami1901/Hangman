@@ -1,13 +1,9 @@
-import { Box, Button, Heading, useColorModeValue, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { ATTEMPTS } from '../pages/hangman';
+import { Box, Button } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectLetters, add, correct, incorrect, refresh } from '../store/slices/letters';
-import { getQuote, quoteSelector } from '../store/slices/quote';
-
-export const A = 65;
-
-export const alphabet = Array.from(new Array(26), (_, i) => String.fromCharCode(i + A));
+import { selectLetters, add, correct, incorrect } from '../store/slices/letters';
+import { quoteSelector } from '../store/slices/quote';
+import { alphabet } from '../constants/alphabet';
 
 const Keyboard = () => {
   const dispatch = useAppDispatch();

@@ -1,7 +1,7 @@
-import { createReducer, createSelector, createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { alphabet } from '../../components/Keyboard';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { alphabet } from '../../constants/alphabet';
 import { RootState } from '../store';
 
 type QuoteType = {

@@ -36,41 +36,37 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <>
-      <Header />
-      <Flex width="100%" justifyContent="center">
-        <VStack
-          spacing="10"
-          w="90%"
-          maxW="600px"
-          justifyContent="center"
-          mt="10"
-          p="10"
-          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
-          borderRadius="5px"
-        >
-          <Heading size="lg" color={textColor}>
-            Enter your nickname and start the game
-          </Heading>
+    <VStack
+      spacing="10"
+      w="90%"
+      mt="10"
+      marginX="auto"
+      maxW="650px"
+      justifyContent="center"
+      p="10"
+      boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+      borderRadius="5px"
+    >
+      <Heading textAlign="center" size="lg" color={textColor}>
+        Enter your nickname and start the game
+      </Heading>
 
-          <Form
-            schema={schema}
-            onSubmit={async (data) => {
-              dispatch(save(data.nickname));
-              await router.push('/hangman');
-            }}
-            noWrap
-          >
-            <Flex w="85%" mt="4" alignItems="flex-start" mx="auto" flexDir={['column', 'row']}>
-              <InputField name="nickname" noLabel mb="4" />
-              <Button ml={[0, '4']} w={['full', '40']} type="submit" colorScheme="green">
-                Start
-              </Button>
-            </Flex>
-          </Form>
-        </VStack>
-      </Flex>
-    </>
+      <Form
+        schema={schema}
+        onSubmit={async (data) => {
+          dispatch(save(data.nickname));
+          await router.push('/hangman');
+        }}
+        noWrap
+      >
+        <Flex w="85%" mt="4" alignItems="flex-start" mx="auto" flexDir={['column', 'row']}>
+          <InputField name="nickname" noLabel mb="4" />
+          <Button ml={[0, '4']} w={['full', '40']} type="submit" colorScheme="green">
+            Start
+          </Button>
+        </Flex>
+      </Form>
+    </VStack>
   );
 };
 

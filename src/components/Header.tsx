@@ -1,9 +1,9 @@
-import { AddIcon, ArrowBackIcon } from '@chakra-ui/icons';
+import React from 'react';
 import {
   Avatar,
   Box,
-  Button,
   Flex,
+  Grid,
   Heading,
   HStack,
   Menu,
@@ -11,18 +11,16 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  SimpleGrid,
+  useBreakpointValue,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { LinkButton, LinkIconButton } from 'chakra-next-link';
-import { redirect } from 'next/dist/server/api-utils';
+import { Link } from 'chakra-next-link';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { PURGE } from 'redux-persist/lib/constants';
+
+import { layoutProps } from '../pages/_app';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { refresh } from '../store/slices/letters';
-import { getQuote } from '../store/slices/quote';
 import ThemeSwitcher from './ThemeSwitcher';
+import { useResetGame } from '../store/combinedActions';
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -36,50 +34,71 @@ const Header = () => {
     router.push('/');
   };
 
-  return (
-    <SimpleGrid columns={3} as="header" boxShadow="rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px" p="4">
-      <HStack>
-        {router.pathname === '/scores' && (
-          <LinkIconButton
-            aria-label="back"
-            icon={<ArrowBackIcon />}
-            href="/hangman"
-            colorScheme="gray"
-            size="md"
-          />
-        )}
-        <ThemeSwitcher />
-      </HStack>
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const reset = useResetGame();
 
-      <Heading color={headerColor} marginX={'auto'}>
-        Hangman
-      </Heading>
-      <HStack position="absolute" right="4">
-        {nickname && (
-          <Box>
-            <Menu>
-              <MenuButton>
-                <Avatar name={nickname} size="md" />
-              </MenuButton>
-              <MenuList>
-                <MenuItem
-                  onClick={() => {
-                    router.push('/hangman');
-                    dispatch(getQuote());
-                    dispatch(refresh());
-                  }}
-                >
-                  New game
-                </MenuItem>
-                <MenuItem onClick={() => router.push('/scores')}>Scores</MenuItem>
-                <MenuDivider />
-                <MenuItem onClick={() => logout()}>Logout</MenuItem>
-              </MenuList>
-            </Menu>
-          </Box>
-        )}
-      </HStack>
-    </SimpleGrid>
+  return (
+    <Flex
+      w="100vw"
+      pos="absolute"
+      top="0"
+      left="0"
+      right="0"
+      h="20"
+      boxShadow="rgba(0, 0, 0, 0.32) 1.95px 1.95px 2.6px"
+    >
+      <Grid {...layoutProps} templateColumns="2fr 1fr" as="header" p="4" alignItems={'center'}>
+        <HStack spacing="10" alignItems="center">
+          <Heading color={headerColor} lineHeight={1}>
+            Hangman
+          </Heading>
+          {router.pathname !== '/' && !isMobile && (
+            <>
+              <Link
+                href="/hangman"
+                _focus={{ outline: 'none' }}
+                _activeLink={{ textDecor: 'underline' }}
+              >
+                New game
+              </Link>
+              <Link
+                href="/scores"
+                _focus={{ outline: 'none' }}
+                _activeLink={{ textDecor: 'underline' }}
+              >
+                Leaderboard
+              </Link>
+            </>
+          )}
+        </HStack>
+
+        <Flex justify="flex-end" align="center">
+          <ThemeSwitcher />
+          {nickname && (
+            <Box pl="4">
+              <Menu>
+                <MenuButton>
+                  <Avatar name={nickname} size="sm" />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem
+                    onClick={() => {
+                      reset();
+                      router.push('/hangman');
+                    }}
+                  >
+                    New game
+                  </MenuItem>
+                  <MenuItem onClick={() => router.push('/scores')}>Scores</MenuItem>
+                  <MenuDivider />
+                  <MenuItem onClick={() => logout()}>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
+          )}
+        </Flex>
+      </Grid>
+    </Flex>
   );
 };
 

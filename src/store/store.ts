@@ -4,7 +4,7 @@ import nicknameReducer from './slices/nickname';
 import clickedLettersReducer from './slices/letters';
 import timeReducer from './slices/time';
 import scoreReducer from './slices/scores';
-// @ts-ignore
+import gamesReducer from './slices/games';
 import storage from 'redux-persist/lib/storage';
 import {
   FLUSH,
@@ -21,6 +21,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
+  blacklist: ['clickedLetters', 'time', 'quote'],
 };
 
 const rootReducer = combineReducers({
@@ -29,27 +30,28 @@ const rootReducer = combineReducers({
   clickedLetters: clickedLettersReducer,
   time: timeReducer,
   scores: scoreReducer,
+  games: gamesReducer,
 });
 
-// const persistedReducer = persistReducer(persistConfig, ((state, action) => {
-//   if (action?.type === 'reset-store') {
-//     return rootReducer(undefined, action);
-//   }
+const persistedReducer = persistReducer(persistConfig, ((state, action) => {
+  if (action?.type === 'reset-store') {
+    return rootReducer(undefined, action);
+  }
 
-//   return rootReducer(state as any, action);
-// }) as typeof rootReducer);
+  return rootReducer(state as any, action);
+}) as typeof rootReducer);
 
 export const store = configureStore({
-  reducer: rootReducer,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: {
-  //       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-  //     },
-  //   }),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

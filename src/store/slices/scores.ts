@@ -20,20 +20,7 @@ export const getScores = createAsyncThunk('scores', async () => {
 });
 
 export type ScoreState = {
-  data:
-    | Record<
-        number,
-        {
-          id: number;
-          quoteId: string;
-          length: number;
-          uniqueCharacters: number;
-          userName: string;
-          errors: number;
-          duration: number;
-        }
-      >
-    | undefined;
+  data: Record<number, ScoreType> | undefined;
   pending: boolean;
   error: boolean;
 };

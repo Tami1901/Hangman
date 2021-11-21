@@ -6,8 +6,7 @@ export type NicknameState = {
 };
 
 const initialState: NicknameState = {
-  // TODO: remove
-  nickname: 'Tamara',
+  nickname: undefined,
 };
 
 export const nicknameSlice = createSlice({

@@ -18,7 +18,7 @@ const timeSlice = createSlice({
   reducers: {
     startTimer(state) {
       state.time = 0;
-      state.duration = -1;
+      state.duration = 0;
       state.startTime = Date.now();
     },
     stopTimer(state) {
