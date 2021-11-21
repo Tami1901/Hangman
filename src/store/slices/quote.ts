@@ -14,12 +14,12 @@ type QuoteType = {
 };
 
 export const getQuote = createAsyncThunk('quote', async () => {
-  let response = await axios.get<QuoteType>('http://api.quotable.io/random');
+  let response = await axios.get<QuoteType>('https://api.quotable.io/random');
 
   for (let i = 0; i < 2; i++) {
     if (response.data.content.length < 60) break;
 
-    const tmpResponse = await axios.get<QuoteType>('http://api.quotable.io/random');
+    const tmpResponse = await axios.get<QuoteType>('https://api.quotable.io/random');
     if (tmpResponse.data.content.length < response.data.content.length) response = tmpResponse;
   }
 
