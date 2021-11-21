@@ -8,6 +8,7 @@ const ThemeSwitcher = () => {
     <Box>
       {colorMode === 'dark' ? (
         <IconButton
+          data-test="color-mode-button"
           aria-label="dark"
           bg="transparent"
           fontSize="20px"
@@ -16,6 +17,7 @@ const ThemeSwitcher = () => {
         />
       ) : (
         <IconButton
+          data-test="color-mode-button"
           aria-label="light"
           bg="transparent"
           icon={<FaMoon />}

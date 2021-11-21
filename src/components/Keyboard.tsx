@@ -14,6 +14,7 @@ const Keyboard = () => {
     <Box display="flex" flexWrap="wrap" justifyContent="center">
       {alphabet.map((elem) => (
         <Button
+          data-test={`keyboard-${elem}`}
           key={elem}
           value={elem}
           onClick={() => {

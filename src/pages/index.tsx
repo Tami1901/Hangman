@@ -47,7 +47,7 @@ const Home: NextPage = () => {
       boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
       borderRadius="5px"
     >
-      <Heading textAlign="center" size="lg" color={textColor}>
+      <Heading data-test="title" textAlign="center" size="lg" color={textColor}>
         Enter your nickname and start the game
       </Heading>
 

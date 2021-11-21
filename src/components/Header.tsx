@@ -72,13 +72,13 @@ const Header = () => {
           )}
         </HStack>
 
-        <Flex justify="flex-end" align="center">
+        <Flex justify="flex-end" align="center" data-test="nav-right">
           <ThemeSwitcher />
           {nickname && (
             <Box pl="4">
               <Menu>
-                <MenuButton>
-                  <Avatar name={nickname} size="sm" />
+                <MenuButton data-test="avatar-button">
+                  <Avatar data-test="avatar" name={nickname} size="sm" />
                 </MenuButton>
                 <MenuList>
                   <MenuItem
@@ -91,7 +91,9 @@ const Header = () => {
                   </MenuItem>
                   <MenuItem onClick={() => router.push('/scores')}>Scores</MenuItem>
                   <MenuDivider />
-                  <MenuItem onClick={() => logout()}>Logout</MenuItem>
+                  <MenuItem data-test="logout" onClick={() => logout()}>
+                    Logout
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Box>

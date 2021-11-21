@@ -13,7 +13,7 @@ export const EmojiMobileComponent: React.FC = () => {
   return (
     <Flex justifyContent="space-between" p="4">
       <HStack spacing={'6'}>
-        <Heading size="lg">
+        <Heading data-test="score" size="lg">
           {incorrectLetters} / {ATTEMPTS}
         </Heading>
 

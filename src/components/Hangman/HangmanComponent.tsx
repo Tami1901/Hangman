@@ -12,7 +12,14 @@ export const HangmanComponent: React.FC = () => {
 
   return (
     <GridItem colSpan={1} position="relative">
-      <Heading size="lg" position="absolute" left="16" top="16" fontFamily="Roboto Mono">
+      <Heading
+        data-test="score"
+        size="lg"
+        position="absolute"
+        left="16"
+        top="16"
+        fontFamily="Roboto Mono"
+      >
         {timeFormat(time)}
       </Heading>
       <Heading size="lg" position="absolute" left="24" top="540">

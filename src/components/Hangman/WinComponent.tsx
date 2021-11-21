@@ -30,7 +30,9 @@ export const WinComponent = () => {
         spacing={16}
         mt="20"
       >
-        <Heading size="lg">🎉 Congratulations! You win!</Heading>
+        <Heading size="lg" data-test="endgame">
+          🎉 Congratulations! You win!
+        </Heading>
         <HStack>
           <Heading size="md">Your score is: </Heading>
           <Heading color="orange">
