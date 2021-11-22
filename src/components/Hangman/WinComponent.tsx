@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, VStack, Heading, HStack, Button } from '@chakra-ui/react';
+import { Box, VStack, Heading, HStack, Button, useBreakpointValue } from '@chakra-ui/react';
 import { LinkButton } from 'chakra-next-link';
 import Confetti from 'react-confetti';
 import useWindowSize from 'react-use/lib/useWindowSize';
@@ -21,8 +21,9 @@ export const WinComponent = () => {
 
   useEffect(() => {
     dispatch(refresh(true));
-    // endOfGame === 'win' && dispatch(finishGame('loss'));
   }, [dispatch]);
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Box>
@@ -40,7 +41,7 @@ export const WinComponent = () => {
           🎉 Congratulations! You win!
         </Heading>
         <HStack>
-          <Heading size="md">Your score is: </Heading>
+          <Heading size="md">{isMobile ? 'Score:' : 'Your score is:'} </Heading>
           <Heading color="orange">
             {calcScore({
               err: incorrectLetters,

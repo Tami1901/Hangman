@@ -1,17 +1,6 @@
 import React, { useEffect } from 'react';
 import type { NextPage } from 'next';
-import Header from '../components/Header';
-import {
-  VStack,
-  Flex,
-  Heading,
-  Input,
-  useColorModeValue,
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-} from '@chakra-ui/react';
+import { VStack, Flex, Heading, useColorModeValue, Button } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { save } from '../store/slices/nickname';
 import { useRouter } from 'next/router';

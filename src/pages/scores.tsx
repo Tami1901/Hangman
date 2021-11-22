@@ -10,7 +10,6 @@ import { getScores, scoresSelect, ScoreType } from '../store/slices/scores';
 import { calcScore } from '../helpers/calcScore';
 import { timeFormat } from '../helpers/timeFormat';
 import { selectGames } from '../store/slices/games';
-import { selectQuote } from '../store/slices/quote';
 
 const allKeys = ['nickname', 'duration', 'errors', 'uniqueCharacters', 'length', 'score'] as const;
 const mobileKeys = ['nickname', 'score'];
