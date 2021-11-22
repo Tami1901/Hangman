@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useStore } from 'react-redux';
 import { useAppDispatch } from '../store/hooks';
 import { save } from '../store/slices/games';
+import { refresh } from '../store/slices/game';
 import { RootState } from '../store/store';
 
 type playerScoreType = {

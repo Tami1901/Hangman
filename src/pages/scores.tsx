@@ -5,7 +5,6 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectLetters } from '../store/slices/letters';
 import { selectNickname } from '../store/slices/nickname';
 import { getScores, scoresSelect, ScoreType } from '../store/slices/scores';
 import { calcScore } from '../helpers/calcScore';
@@ -18,7 +17,7 @@ const mobileKeys = ['nickname', 'score'];
 
 const ScorePage: NextPage = () => {
   const dispatch = useAppDispatch();
-  const { data: scoreData, pending } = useAppSelector(scoresSelect);
+  const { data: scoreData } = useAppSelector(scoresSelect);
   const nickname = useAppSelector(selectNickname);
   const games = useAppSelector(selectGames);
 

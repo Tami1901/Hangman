@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, VStack, Heading, HStack, Button } from '@chakra-ui/react';
 import { LinkButton } from 'chakra-next-link';
 import Confetti from 'react-confetti';
@@ -6,17 +6,23 @@ import useWindowSize from 'react-use/lib/useWindowSize';
 
 import { calcScore } from '../../helpers/calcScore';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectLetters } from '../../store/slices/letters';
+import { finishGame, refresh, selectGame } from '../../store/slices/game';
 import { useResetGame } from '../../store/combinedActions';
 import { selectQuote } from '../../store/slices/quote';
 
 export const WinComponent = () => {
   const { api, uniqueCharacters } = useAppSelector(selectQuote);
-  const { incorrectLetters } = useAppSelector(selectLetters);
+  const { incorrectLetters, endOfGame } = useAppSelector(selectGame);
   const time = useAppSelector((state) => state.time);
   const { width, height } = useWindowSize();
+  const dispatch = useAppDispatch();
 
   const reset = useResetGame();
+
+  useEffect(() => {
+    dispatch(refresh(true));
+    // endOfGame === 'win' && dispatch(finishGame('loss'));
+  }, [dispatch]);
 
   return (
     <Box>
@@ -27,8 +33,8 @@ export const WinComponent = () => {
         height="100%"
         justifyContent="center"
         alignItems="center"
-        spacing={16}
         mt="20"
+        spacing={16}
       >
         <Heading size="lg" data-test="endgame">
           🎉 Congratulations! You win!

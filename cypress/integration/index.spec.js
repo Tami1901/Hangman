@@ -15,7 +15,7 @@ describe('Tests whole app', () => {
     cy.get('input[name=nickname]').first().type('foobar');
     cy.get('button[type=submit]').click();
 
-    cy.intercept('GET', 'http://api.quotable.io/random', { fixture: 'quote.json' });
+    cy.intercept('GET', 'https://api.quotable.io/random', { fixture: 'quote.json' });
     cy.waitFor('network-idle');
 
     cy.get('[data-test=score]').should('have.text', '0 / 6');
@@ -39,7 +39,7 @@ describe('Tests whole app', () => {
     cy.get('input[name=nickname]').first().type('foobar');
     cy.get('button[type=submit]').click();
 
-    cy.intercept('GET', 'http://api.quotable.io/random', { fixture: 'quote.json' });
+    cy.intercept('GET', 'https://api.quotable.io/random', { fixture: 'quote.json' });
     cy.waitFor('network-idle');
 
     cy.get('[data-test=score]').should('have.text', '0 / 6');

@@ -1,7 +1,7 @@
 import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import quoteReducer from './slices/quote';
 import nicknameReducer from './slices/nickname';
-import clickedLettersReducer from './slices/letters';
+import clickedLettersReducer from './slices/game';
 import timeReducer from './slices/time';
 import scoreReducer from './slices/scores';
 import gamesReducer from './slices/games';

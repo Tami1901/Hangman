@@ -13,11 +13,10 @@ import {
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 
-import Keyboard from '../components/Keyboard';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getQuote, quoteSelector } from '../store/slices/quote';
+import { quoteSelector } from '../store/slices/quote';
 import { selectNickname } from '../store/slices/nickname';
-import { selectLetters, refresh } from '../store/slices/letters';
+import { finishGame, selectGame } from '../store/slices/game';
 import { startTimer, stopTimer, tickTime } from '../store/slices/time';
 import { WinComponent } from '../components/Hangman/WinComponent';
 import { useSaveGame } from '../hooks/useSaveGame';
@@ -25,15 +24,15 @@ import { ATTEMPTS } from '../constants/gameConfig';
 import { alphabet } from '../constants/alphabet';
 import { HangmanComponent } from '../components/Hangman/HangmanComponent';
 import { EmojiMobileComponent } from '../components/Hangman/EmojiMobileComponent';
-import { LostMessageComponent } from '../components/LostMessageComponent';
 import { useResetGame } from '../store/combinedActions';
+import { QuoteComponent } from '../components/Hangman/QuoteComponent';
 
 const HangmanPage: NextPage = () => {
   const dispatch = useAppDispatch();
   const { api: quoteApi } = useAppSelector(quoteSelector);
-  const nickname = useAppSelector(selectNickname);
-  const { clickedLetters, incorrectLetters } = useAppSelector(selectLetters);
+  const { clickedLetters, incorrectLetters, endOfGame } = useAppSelector(selectGame);
   const { duration } = useAppSelector((state) => state.time);
+  const nickname = useAppSelector(selectNickname);
 
   const router = useRouter();
   const reset = useResetGame();
@@ -46,7 +45,6 @@ const HangmanPage: NextPage = () => {
     reset();
   }, [nickname, reset, router]);
 
-  const words = quoteApi.data?.content.split(' ');
   const isLost = incorrectLetters >= ATTEMPTS;
   const isWin = quoteApi.data?.content
     .split('')
@@ -59,9 +57,11 @@ const HangmanPage: NextPage = () => {
   useEffect(() => {
     if (isWin || isLost) {
       if (duration === 0 || isLost) {
+        dispatch(finishGame('loss'));
         return;
       }
 
+      dispatch(finishGame('win'));
       saveGame(duration)
         .then(() => toast({ title: 'Game saved' }))
         .catch((err) => toast({ title: 'Error saving game', status: 'error' }));
@@ -86,7 +86,7 @@ const HangmanPage: NextPage = () => {
     <>
       {quoteApi.pending ? (
         <Spinner />
-      ) : isWin ? (
+      ) : endOfGame === 'win' ? (
         <WinComponent />
       ) : (
         <Grid
@@ -100,36 +100,7 @@ const HangmanPage: NextPage = () => {
 
           <GridItem colSpan={2}>
             {isTablet && <EmojiMobileComponent />}
-            <VStack spacing="8" mt={isTablet ? '12' : '28'}>
-              {quoteApi.pending && <p>Loading...</p>}
-              {quoteApi.data && (
-                <Flex justifyContent="center" flexWrap="wrap">
-                  {words?.map((w, i) => (
-                    <HStack mr="12" mb="6" key={`${w}-${i}`}>
-                      {w.split('').map((l, i) => (
-                        <Box
-                          key={`${l}-${i}`}
-                          width="30px"
-                          fontWeight="bold"
-                          fontSize="26px"
-                          boxSizing="border-box"
-                          textAlign="center"
-                          color={isLost && !clickedLetters.includes(l) ? 'red.400' : undefined}
-                        >
-                          {isLost || clickedLetters.includes(l) || !alphabet.includes(l) ? l : '_'}
-                        </Box>
-                      ))}
-                    </HStack>
-                  ))}
-                </Flex>
-              )}
-
-              {quoteApi.error && <p>Oops, something went wrong</p>}
-
-              <Box display="flex" width={['90%', '90%', '90%', '70%']} justifyContent="center">
-                {isLost ? <LostMessageComponent /> : <Keyboard />}
-              </Box>
-            </VStack>
+            <QuoteComponent />
           </GridItem>
         </Grid>
       )}
