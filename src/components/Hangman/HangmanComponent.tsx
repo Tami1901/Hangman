@@ -3,11 +3,11 @@ import React from 'react';
 import { ATTEMPTS } from '../../constants/gameConfig';
 import { timeFormat } from '../../helpers/timeFormat';
 import { useAppSelector } from '../../store/hooks';
-import { selectLetters } from '../../store/slices/letters';
+import { selectGame } from '../../store/slices/game';
 import { Human } from '../Human/Human';
 
 export const HangmanComponent: React.FC = () => {
-  const { incorrectLetters } = useAppSelector(selectLetters);
+  const { incorrectLetters } = useAppSelector(selectGame);
   const { time } = useAppSelector((state) => state.time);
 
   return (
@@ -22,7 +22,7 @@ export const HangmanComponent: React.FC = () => {
       >
         {timeFormat(time)}
       </Heading>
-      <Heading size="lg" position="absolute" left="24" top="540">
+      <Heading size="lg" position="absolute" left="24" top="540" fontFamily="Roboto Mono">
         {incorrectLetters} / {ATTEMPTS}
       </Heading>
       <Human />

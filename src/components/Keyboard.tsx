@@ -1,17 +1,17 @@
 import React from 'react';
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, useBreakpointValue } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectLetters, add, correct, incorrect } from '../store/slices/letters';
+import { selectGame, add, correct, incorrect } from '../store/slices/game';
 import { quoteSelector } from '../store/slices/quote';
 import { alphabet } from '../constants/alphabet';
 
 const Keyboard = () => {
   const dispatch = useAppDispatch();
-  const clickedLetters = useAppSelector(selectLetters);
+  const clickedLetters = useAppSelector(selectGame);
   const quote = useAppSelector(quoteSelector);
 
   return (
-    <Box display="flex" flexWrap="wrap" justifyContent="center">
+    <Box display="flex" flexWrap="wrap" justifyContent="center" mb="8">
       {alphabet.map((elem) => (
         <Button
           data-test={`keyboard-${elem}`}

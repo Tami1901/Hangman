@@ -3,11 +3,11 @@ import { Box } from '@chakra-ui/react';
 import BodyPart from './BodyPart';
 import Emoji from './Emoji';
 import { useAppSelector } from '../../store/hooks';
-import { selectLetters } from '../../store/slices/letters';
+import { selectGame } from '../../store/slices/game';
 import { emojis } from '../../constants/emojiList';
 
 export const Human = () => {
-  const { incorrectLetters } = useAppSelector(selectLetters);
+  const { incorrectLetters } = useAppSelector(selectGame);
 
   return (
     <Box pos="relative" w="80" h="440px" mt="20">

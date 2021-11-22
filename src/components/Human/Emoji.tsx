@@ -1,11 +1,11 @@
 import React from 'react';
 import { Image, useBreakpointValue } from '@chakra-ui/react';
 import { useAppSelector } from '../../store/hooks';
-import { selectLetters } from '../../store/slices/letters';
+import { selectGame } from '../../store/slices/game';
 import { emojis } from '../../constants/emojiList';
 
 const Emoji: React.FC = () => {
-  const { incorrectLetters } = useAppSelector(selectLetters);
+  const { incorrectLetters } = useAppSelector(selectGame);
   const isTablet = useBreakpointValue({ base: true, lg: true, xl: false });
 
   if (incorrectLetters === 0) {
@@ -23,8 +23,8 @@ const Emoji: React.FC = () => {
       zIndex="2"
       alt={alt}
       src={link}
-      w={isTablet ? '10' : '24'}
-      h={isTablet ? '10' : '24'}
+      w={isTablet ? '8' : '24'}
+      h={isTablet ? '8' : '24'}
     />
   );
 };

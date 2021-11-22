@@ -6,7 +6,7 @@ export const LostMessageComponent = () => {
   const reset = useResetGame();
 
   return (
-    <VStack spacing="12" backgroundColor="orange.100" borderRadius="4px" p="8">
+    <VStack spacing="8" backgroundColor="orange.100" borderRadius="4px" p="8" mb="8">
       <Heading data-test="endgame" size="lg" color="gray.700" textAlign="center">
         😢 Better luck, next time! Try new game
       </Heading>

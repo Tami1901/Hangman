@@ -3,17 +3,17 @@ import React from 'react';
 import { ATTEMPTS } from '../../constants/gameConfig';
 import { timeFormat } from '../../helpers/timeFormat';
 import { useAppSelector } from '../../store/hooks';
-import { selectLetters } from '../../store/slices/letters';
+import { selectGame } from '../../store/slices/game';
 import Emoji from '../Human/Emoji';
 
 export const EmojiMobileComponent: React.FC = () => {
-  const { incorrectLetters } = useAppSelector(selectLetters);
+  const { incorrectLetters } = useAppSelector(selectGame);
   const { time } = useAppSelector((state) => state.time);
 
   return (
-    <Flex justifyContent="space-between" p="4">
-      <HStack spacing={'6'}>
-        <Heading data-test="score" size="lg">
+    <Flex justifyContent="space-between" p="12px 0">
+      <HStack spacing={'6'} alignItems={'center'}>
+        <Heading data-test="score" size="lg" fontFamily={'Roboto Mono'}>
           {incorrectLetters} / {ATTEMPTS}
         </Heading>
 
